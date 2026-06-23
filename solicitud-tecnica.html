@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f172a">
+<title>Solicitud Técnica</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/tabler-icons.min.css">
+<style>
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface2: #273449;
+    --border: #334155;
+    --accent: #f59e0b;
+    --accent2: #fbbf24;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --green: #10b981;
+    --yellow: #f59e0b;
+    --red: #ef4444;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; padding-bottom: 2rem; }
+
+  .top-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .top-bar .bolt {
+    width: 32px; height: 32px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .top-bar .bolt i { color: #0f172a; font-size: 18px; }
+  .top-bar h1 { font-size: 16px; font-weight: 600; color: var(--text); }
+  .top-bar p { font-size: 12px; color: var(--muted); }
+
+  .wrap { padding: 16px; max-width: 480px; margin: 0 auto; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card-title i { font-size: 14px; }
+
+  .field { margin-bottom: 12px; }
+  .field:last-child { margin-bottom: 0; }
+  label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
+
+  input, select, textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 15px;
+    padding: 10px 12px;
+    outline: none;
+    transition: border-color 0.15s;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
+  textarea { resize: none; line-height: 1.5; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    padding: 7px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--muted);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .chip i { font-size: 14px; }
+  .chip.a-tipo { background: rgba(245,158,11,0.15); border-color: var(--accent); color: var(--accent); }
+  .chip.a-estado { background: rgba(16,185,129,0.15); border-color: var(--green); color: var(--green); }
+  .chip.a-alta { background: rgba(239,68,68,0.15); border-color: var(--red); color: #fca5a5; }
+  .chip.a-media { background: rgba(245,158,11,0.15); border-color: var(--yellow); color: var(--yellow); }
+  .chip.a-baja { background: rgba(16,185,129,0.15); border-color: var(--green); color: var(--green); }
+
+  .mat-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+  .mat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .mat-num { font-size: 11px; font-weight: 700; color: var(--accent); }
+  .rm-btn { background: none; border: none; color: var(--muted); cursor: pointer; padding: 2px; font-size: 18px; line-height: 1; }
+  .rm-btn:hover { color: var(--red); }
+  .mat-grid { display: grid; grid-template-columns: 1fr 80px; gap: 8px; margin-top: 8px; }
+
+  .stock-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 600;
+    padding: 3px 8px; border-radius: 20px;
+    margin-top: 6px;
+  }
+  .s-ok { background: rgba(16,185,129,0.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.3); }
+  .s-low { background: rgba(245,158,11,0.15); color: var(--yellow); border: 1px solid rgba(245,158,11,0.3); }
+  .s-crit { background: rgba(239,68,68,0.15); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); }
+
+  .add-btn {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--accent);
+    cursor: pointer; padding: 8px 0;
+    border: none; background: none;
+    font-family: inherit; font-weight: 500;
+  }
+  .warn { font-size: 12px; color: #fca5a5; margin-top: 5px; }
+
+  .inv-loading {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--muted); padding: 4px 0;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--accent);
+    color: #0f172a;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: opacity 0.15s, transform 0.1s;
+    margin-top: 4px;
+    letter-spacing: 0.01em;
+  }
+  .submit-btn:active { transform: scale(0.98); opacity: 0.9; }
+  .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); padding: 12px 20px;
+    border-radius: var(--radius); font-size: 14px;
+    display: none; z-index: 999;
+    white-space: nowrap; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    max-width: 90vw; text-align: center;
+  }
+  .toast.ok { border-color: var(--green); color: #6ee7b7; }
+  .toast.err { border-color: var(--red); color: #fca5a5; }
+
+  .spin { animation: spin 1s linear infinite; display: inline-block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f8fafc; --surface: #ffffff; --surface2: #f1f5f9;
+      --border: #e2e8f0; --text: #0f172a; --muted: #64748b;
+    }
+    .top-bar { box-shadow: 0 1px 8px rgba(0,0,0,0.06); }
+    .submit-btn { color: #0f172a; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="bolt"><i class="ti ti-bolt"></i></div>
+  <div>
+    <h1>Solicitud Técnica</h1>
+    <p>Registro desde terreno · Zurich</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="card">
+    <div class="card-title"><i class="ti ti-info-circle"></i> General</div>
+    <div class="field">
+      <label>Fecha y hora</label>
+      <input type="datetime-local" id="fecha">
+    </div>
+    <div class="field">
+      <label>Solicitante</label>
+      <select id="solicitante">
+        <option value="">Seleccionar...</option>
+        <option>Igor Parra</option>
+        <option>Coromoto Pérez</option>
+        <option>Otro</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Piso / Ubicación</label>
+      <select id="piso">
+        <option value="">Seleccionar...</option>
+        <option>Piso -1</option><option>Piso 0</option><option>Piso 1</option>
+        <option>Piso 2</option><option>Piso 7</option><option>Piso 16</option>
+        <option>Piso 17</option><option>Piso 18</option><option>Piso 19</option>
+        <option>Piso 20</option><option>Piso 21</option><option>Azotea</option>
+        <option>Exterior</option><option>Otro</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><i class="ti ti-tool"></i> Tipo de trabajo</div>
+    <div class="chips" id="chips-tipo">
+      <div class="chip" data-val="Iluminación"><i class="ti ti-bulb"></i> Iluminación</div>
+      <div class="chip" data-val="Enchufe / Tabiquería"><i class="ti ti-plug"></i> Enchufe</div>
+      <div class="chip" data-val="Instalación de Artefacto"><i class="ti ti-tool"></i> Artefacto</div>
+      <div class="chip" data-val="Obra Eléctrica"><i class="ti ti-hammer"></i> Obra eléctrica</div>
+      <div class="chip" data-val="Resolución de Problema"><i class="ti ti-alert-triangle"></i> Problema</div>
+      <div class="chip" data-val="Datos / Red"><i class="ti ti-network"></i> Datos / Red</div>
+      <div class="chip" data-val="Otro"><i class="ti ti-dots"></i> Otro</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><i class="ti ti-flag"></i> Prioridad</div>
+    <div class="chips" id="chips-prio">
+      <div class="chip" data-val="🔴 Alta"><i class="ti ti-circle-filled" style="color:#ef4444;font-size:10px"></i> Alta</div>
+      <div class="chip" data-val="🟡 Media"><i class="ti ti-circle-filled" style="color:#f59e0b;font-size:10px"></i> Media</div>
+      <div class="chip" data-val="🟢 Baja"><i class="ti ti-circle-filled" style="color:#10b981;font-size:10px"></i> Baja</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><i class="ti ti-checks"></i> Estado</div>
+    <div class="chips" id="chips-estado">
+      <div class="chip a-estado" data-val="Pendiente"><i class="ti ti-clock"></i> Pendiente</div>
+      <div class="chip" data-val="En Ejecución"><i class="ti ti-player-play"></i> En ejecución</div>
+      <div class="chip" data-val="Completado"><i class="ti ti-check"></i> Completado</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><i class="ti ti-file-text"></i> Descripción del trabajo</div>
+    <textarea id="descripcion" rows="4" placeholder="Describe el trabajo solicitado..."></textarea>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><i class="ti ti-package"></i> Materiales del inventario</div>
+    <div id="inv-status" class="inv-loading"><i class="ti ti-loader spin"></i> Cargando inventario...</div>
+    <div id="mat-list"></div>
+    <button class="add-btn" id="add-mat-btn" onclick="addMaterial()" style="display:none">
+      <i class="ti ti-plus"></i> Agregar material
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><i class="ti ti-notes"></i> Observaciones</div>
+    <textarea id="observaciones" rows="3" placeholder="Notas, seguimiento, pendientes..."></textarea>
+  </div>
+
+  <button class="submit-btn" id="btn-submit" onclick="submitForm()" disabled>
+    <i class="ti ti-send"></i> Guardar en Notion
+  </button>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const INV_DB = "89255fe7-957e-4103-99a0-55dddc5220ed";
+const SOL_DB = "286e4e86-4077-4312-afa2-4e4b1c87b39f";
+
+let inventario = [];
+let tipoSel = '', prioSel = '', estadoSel = 'Pendiente';
+let matCount = 0;
+
+const now = new Date();
+now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+document.getElementById('fecha').value = now.toISOString().slice(0, 16);
+
+function initChips(id, cb, cls) {
+  document.querySelectorAll(`#${id} .chip`).forEach(c => {
+    c.addEventListener('click', () => {
+      document.querySelectorAll(`#${id} .chip`).forEach(x => x.className = 'chip');
+      c.classList.add(cls);
+      cb(c.dataset.val);
+    });
+  });
+}
+initChips('chips-tipo', v => tipoSel = v, 'a-tipo');
+initChips('chips-estado', v => estadoSel = v, 'a-estado');
+document.querySelectorAll('#chips-prio .chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('#chips-prio .chip').forEach(x => x.className = 'chip');
+    prioSel = c.dataset.val;
+    const m = { '🔴 Alta': 'a-alta', '🟡 Media': 'a-media', '🟢 Baja': 'a-baja' };
+    c.classList.add(m[c.dataset.val]);
+  });
+});
+
+async function loadInventario() {
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: `Eres un asistente que lee la base de datos de inventario de Notion con ID ${INV_DB}.
+Usa las herramientas de Notion para obtener TODOS los productos del inventario de materiales.
+Responde SOLO con un JSON array sin markdown ni texto extra, con este formato:
+[{"id":"page-id","nombre":"nombre producto","idMaterial":"CAJ-001","cantidad":40,"unidad":"un"}]
+Incluye TODOS los productos. El campo idMaterial viene de la propiedad "ID Material" de cada página.`,
+        messages: [{ role: 'user', content: 'Dame todos los productos del inventario de bodega.' }],
+        mcp_servers: [{ type: 'url', url: 'https://mcp.notion.com/mcp', name: 'notion-mcp' }]
+      })
+    });
+    const data = await resp.json();
+    const text = (data.content || []).map(b => b.text || '').join('');
+    const s = text.indexOf('['), e = text.lastIndexOf(']');
+    if (s >= 0 && e > s) {
+      inventario = JSON.parse(text.slice(s, e + 1));
+      inventario.sort((a, b) => (a.idMaterial || '').localeCompare(b.idMaterial || ''));
+      document.getElementById('inv-status').style.display = 'none';
+      document.getElementById('add-mat-btn').style.display = 'flex';
+      document.getElementById('btn-submit').disabled = false;
+      addMaterial();
+    } else {
+      document.getElementById('inv-status').innerHTML = '<i class="ti ti-alert-circle" style="color:#ef4444"></i> No se pudo cargar el inventario.';
+    }
+  } catch (e) {
+    document.getElementById('inv-status').innerHTML = '<i class="ti ti-alert-circle" style="color:#ef4444"></i> Error de conexión.';
+  }
+}
+
+function stockBadge(qty) {
+  if (qty === null || qty === undefined) return '';
+  if (qty <= 10) return `<span class="stock-badge s-crit"><i class="ti ti-alert-triangle" style="font-size:11px"></i> Crítico: ${qty}</span>`;
+  if (qty <= 13) return `<span class="stock-badge s-low"><i class="ti ti-minus" style="font-size:11px"></i> Bajo: ${qty}</span>`;
+  return `<span class="stock-badge s-ok"><i class="ti ti-check" style="font-size:11px"></i> Stock: ${qty}</span>`;
+}
+
+function addMaterial() {
+  if (!inventario.length) return;
+  matCount++;
+  const id = 'mat-' + matCount;
+  const opts = inventario.map(p =>
+    `<option value="${p.id}" data-qty="${p.cantidad}" data-nombre="${p.nombre}" data-unidad="${p.unidad || 'un'}" data-id="${p.idMaterial || ''}">${p.idMaterial ? p.idMaterial + ' · ' : ''}${p.nombre}</option>`
+  ).join('');
+  const div = document.createElement('div');
+  div.id = id;
+  div.className = 'mat-item';
+  div.innerHTML = `
+    <div class="mat-header">
+      <span class="mat-num">Material #${matCount}</span>
+      <button class="rm-btn" onclick="document.getElementById('${id}').remove()" aria-label="Eliminar">
+        <i class="ti ti-x"></i>
+      </button>
+    </div>
+    <div class="field">
+      <label>Producto</label>
+      <select onchange="updateStock(this,'${id}')">
+        <option value="">Seleccionar producto...</option>
+        ${opts}
+      </select>
+      <div id="stock-${id}"></div>
+    </div>
+    <div class="mat-grid">
+      <div>
+        <label>Cantidad a usar</label>
+        <input type="number" id="qty-${id}" min="1" value="1" step="1">
+      </div>
+      <div>
+        <label>Unidad</label>
+        <input type="text" id="unit-${id}" readonly style="color:var(--muted)">
+      </div>
+    </div>
+    <div id="warn-${id}" class="warn" style="display:none"></div>
+  `;
+  document.getElementById('mat-list').appendChild(div);
+}
+
+function updateStock(sel, matId) {
+  const opt = sel.options[sel.selectedIndex];
+  if (!sel.value) { document.getElementById('stock-' + matId).innerHTML = ''; return; }
+  const qty = parseFloat(opt.dataset.qty);
+  const unidad = opt.dataset.unidad || 'un';
+  document.getElementById('stock-' + matId).innerHTML = stockBadge(qty);
+  document.getElementById('unit-' + matId).value = unidad;
+  const qtyInput = document.getElementById('qty-' + matId);
+  qtyInput.max = qty;
+  const warn = document.getElementById('warn-' + matId);
+  qtyInput.oninput = () => {
+    const used = parseFloat(qtyInput.value) || 0;
+    warn.style.display = used > qty ? 'block' : 'none';
+    if (used > qty) warn.textContent = `Solo hay ${qty} ${unidad} disponibles.`;
+  };
+}
+
+function showToast(msg, type = '', dur = 3500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', dur);
+}
+
+function resetForm() {
+  document.getElementById('descripcion').value = '';
+  document.getElementById('observaciones').value = '';
+  document.getElementById('solicitante').value = '';
+  document.getElementById('piso').value = '';
+  document.getElementById('mat-list').innerHTML = '';
+  matCount = 0;
+  document.querySelectorAll('.chip').forEach(c => c.className = 'chip');
+  tipoSel = ''; prioSel = ''; estadoSel = 'Pendiente';
+  document.querySelector('#chips-estado .chip[data-val="Pendiente"]').classList.add('a-estado');
+  const n = new Date(); n.setMinutes(n.getMinutes() - n.getTimezoneOffset());
+  document.getElementById('fecha').value = n.toISOString().slice(0, 16);
+  addMaterial();
+}
+
+async function submitForm() {
+  const descripcion = document.getElementById('descripcion').value.trim();
+  const solicitante = document.getElementById('solicitante').value;
+  if (!descripcion) { showToast('Escribe una descripción', 'err'); return; }
+  if (!solicitante) { showToast('Selecciona un solicitante', 'err'); return; }
+
+  const materiales = [];
+  let stockOk = true;
+  document.querySelectorAll('.mat-item').forEach(item => {
+    const sel = item.querySelector('select');
+    if (!sel || !sel.value) return;
+    const opt = sel.options[sel.selectedIndex];
+    const used = parseFloat(item.querySelector('input[type=number]')?.value) || 1;
+    const disponible = parseFloat(opt.dataset.qty) || 0;
+    if (used > disponible) { stockOk = false; return; }
+    materiales.push({
+      id: sel.value,
+      nombre: opt.dataset.nombre,
+      idMaterial: opt.dataset.id,
+      used,
+      unidad: item.querySelector('input[readonly]')?.value || 'un',
+      nuevaCantidad: disponible - used
+    });
+  });
+
+  if (!stockOk) { showToast('Cantidad supera el stock disponible', 'err'); return; }
+
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="ti ti-loader spin"></i> Guardando...';
+
+  const observaciones = document.getElementById('observaciones').value.trim();
+  const fecha = document.getElementById('fecha').value;
+  const piso = document.getElementById('piso').value;
+  const matTexto = materiales.map(m => `${m.idMaterial ? m.idMaterial + ' · ' : ''}${m.nombre}: ${m.used} ${m.unidad}`).join(', ');
+  let obsText = observaciones;
+  if (matTexto) obsText = (obsText ? obsText + '\n\n' : '') + 'Materiales usados: ' + matTexto;
+  const statusMap = { 'Pendiente': 'Sin empezar', 'En Ejecución': 'En curso', 'Completado': 'Listo' };
+
+  const descuentos = materiales.map(m => `- ID página: ${m.id} → nueva cantidad: ${m.nuevaCantidad}`).join('\n');
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: `Eres un asistente que gestiona Notion. Ejecuta estas dos acciones:
+
+1. CREAR página en base de datos ${SOL_DB} con:
+- "Descripción del Trabajo": "${descripcion}"
+- "Solicitante": "${solicitante}"
+- "Piso / Ubicación": "${piso}"
+- "Tipo de Trabajo": "${tipoSel}"
+- "Prioridad": "${prioSel}"
+- "Estado": status "${statusMap[estadoSel] || 'Sin empezar'}"
+- "Fecha y Hora": "${fecha ? new Date(fecha).toISOString() : ''}"
+- "Observaciones": "${obsText.replace(/"/g, "'")}"
+
+2. ACTUALIZAR cantidad en inventario ${INV_DB}:
+${descuentos || 'Sin materiales que descontar.'}
+
+Responde SOLO "ok" si todo salió bien, o "error: motivo" si algo falló.`,
+        messages: [{ role: 'user', content: 'Ejecuta las operaciones en Notion.' }],
+        mcp_servers: [{ type: 'url', url: 'https://mcp.notion.com/mcp', name: 'notion-mcp' }]
+      })
+    });
+
+    const data = await resp.json();
+    const text = (data.content || []).map(b => b.text || '').join('').toLowerCase();
+
+    if (resp.ok && text.includes('ok')) {
+      materiales.forEach(m => {
+        const inv = inventario.find(i => i.id === m.id);
+        if (inv) inv.cantidad = m.nuevaCantidad;
+      });
+      showToast('Guardado correctamente', 'ok');
+      setTimeout(resetForm, 1800);
+    } else {
+      showToast('Error al guardar. Intenta de nuevo.', 'err');
+    }
+  } catch (e) {
+    showToast('Error de conexión', 'err');
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<i class="ti ti-send"></i> Guardar en Notion';
+}
+
+loadInventario();
+</script>
+</body>
+</html>
