@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f172a">
+<title>Solicitud Técnica</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/tabler-icons.min.css">
+<style>
+  :root{--bg:#0f172a;--surface:#1e293b;--surface2:#273449;--border:#334155;--accent:#f59e0b;--text:#f1f5f9;--muted:#94a3b8;--green:#10b981;--yellow:#f59e0b;--red:#ef4444;--radius:12px;--radius-sm:8px}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;padding-bottom:2rem}
+  .top-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10}
+  .bolt{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center}
+  .bolt i{color:#0f172a;font-size:18px}
+  .top-bar h1{font-size:16px;font-weight:600}
+  .top-bar p{font-size:12px;color:var(--muted)}
+  .wrap{padding:16px;max-width:480px;margin:0 auto}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+  .card-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:6px}
+  .field{margin-bottom:12px}.field:last-child{margin-bottom:0}
+  label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:500}
+  input,select,textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:inherit;font-size:15px;padding:10px 12px;outline:none;-webkit-appearance:none}
+  input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+  select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+  textarea{resize:none;line-height:1.5}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);font-size:13px;cursor:pointer;user-select:none;display:flex;align-items:center;gap:5px;transition:all .15s}
+  .chip.a-tipo{background:rgba(245,158,11,.15);border-color:var(--accent);color:var(--accent)}
+  .chip.a-estado{background:rgba(16,185,129,.15);border-color:var(--green);color:var(--green)}
+  .chip.a-alta{background:rgba(239,68,68,.15);border-color:var(--red);color:#fca5a5}
+  .chip.a-media{background:rgba(245,158,11,.15);border-color:var(--yellow);color:var(--yellow)}
+  .chip.a-baja{background:rgba(16,185,129,.15);border-color:var(--green);color:var(--green)}
+  .mat-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;margin-bottom:8px}
+  .mat-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .mat-num{font-size:11px;font-weight:700;color:var(--accent)}
+  .rm-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1}
+  .mat-grid{display:grid;grid-template-columns:1fr 80px;gap:8px;margin-top:8px}
+  .stock-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px;margin-top:6px}
+  .s-ok{background:rgba(16,185,129,.15);color:#6ee7b7;border:1px solid rgba(16,185,129,.3)}
+  .s-low{background:rgba(245,158,11,.15);color:var(--yellow);border:1px solid rgba(245,158,11,.3)}
+  .s-crit{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3)}
+  .add-btn{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--accent);cursor:pointer;padding:8px 0;border:none;background:none;font-family:inherit;font-weight:500}
+  .warn{font-size:12px;color:#fca5a5;margin-top:5px}
+  .submit-btn{width:100%;padding:15px;background:var(--accent);color:#0f172a;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px;transition:opacity .15s}
+  .submit-btn:active{opacity:.85}
+  .submit-btn:disabled{opacity:.4;cursor:not-allowed}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--border);color:var(--text);padding:12px 20px;border-radius:var(--radius);font-size:14px;display:none;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,.4);max-width:90vw;text-align:center}
+  .toast.ok{border-color:var(--green);color:#6ee7b7}
+  .toast.err{border-color:var(--red);color:#fca5a5}
+  .spin{animation:spin 1s linear infinite;display:inline-block}
+  @keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="bolt"><i class="ti ti-bolt"></i></div>
+  <div><h1>Solicitud Técnica</h1><p>Registro desde terreno · Zurich</p></div>
+</div>
+<div class="wrap">
+  <div class="card">
+    <div class="card-title"><i class="ti ti-info-circle"></i> General</div>
+    <div class="field"><label>Fecha y hora</label><input type="datetime-local" id="fecha"></div>
+    <div class="field">
+      <label>Solicitante</label>
+      <select id="solicitante">
+        <option value="">Seleccionar...</option>
+        <option>Igor Parra</option><option>Coromoto Pérez</option><option>Otro</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Piso / Ubicación</label>
+      <select id="piso">
+        <option value="">Seleccionar...</option>
+        <option>Piso -1</option><option>Piso 0</option><option>Piso 1</option>
+        <option>Piso 2</option><option>Piso 7</option><option>Piso 16</option>
+        <option>Piso 17</option><option>Piso 18</option><option>Piso 19</option>
+        <option>Piso 20</option><option>Piso 21</option><option>Azotea</option>
+        <option>Exterior</option><option>Otro</option>
+      </select>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="ti ti-tool"></i> Tipo de trabajo</div>
+    <div class="chips" id="chips-tipo">
+      <div class="chip" data-val="Iluminación"><i class="ti ti-bulb"></i> Iluminación</div>
+      <div class="chip" data-val="Enchufe / Tabiquería"><i class="ti ti-plug"></i> Enchufe</div>
+      <div class="chip" data-val="Instalación de Artefacto"><i class="ti ti-tool"></i> Artefacto</div>
+      <div class="chip" data-val="Obra Eléctrica"><i class="ti ti-hammer"></i> Obra eléctrica</div>
+      <div class="chip" data-val="Resolución de Problema"><i class="ti ti-alert-triangle"></i> Problema</div>
+      <div class="chip" data-val="Datos / Red"><i class="ti ti-network"></i> Datos / Red</div>
+      <div class="chip" data-val="Otro"><i class="ti ti-dots"></i> Otro</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="ti ti-flag"></i> Prioridad</div>
+    <div class="chips" id="chips-prio">
+      <div class="chip" data-val="🔴 Alta"><i class="ti ti-circle-filled" style="color:#ef4444;font-size:10px"></i> Alta</div>
+      <div class="chip" data-val="🟡 Media"><i class="ti ti-circle-filled" style="color:#f59e0b;font-size:10px"></i> Media</div>
+      <div class="chip" data-val="🟢 Baja"><i class="ti ti-circle-filled" style="color:#10b981;font-size:10px"></i> Baja</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="ti ti-checks"></i> Estado</div>
+    <div class="chips" id="chips-estado">
+      <div class="chip a-estado" data-val="Pendiente"><i class="ti ti-clock"></i> Pendiente</div>
+      <div class="chip" data-val="En Ejecución"><i class="ti ti-player-play"></i> En ejecución</div>
+      <div class="chip" data-val="Completado"><i class="ti ti-check"></i> Completado</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="ti ti-file-text"></i> Descripción del trabajo</div>
+    <textarea id="descripcion" rows="4" placeholder="Describe el trabajo solicitado..."></textarea>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="ti ti-package"></i> Materiales del inventario</div>
+    <div id="mat-list"></div>
+    <button class="add-btn" onclick="addMaterial()"><i class="ti ti-plus"></i> Agregar material</button>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="ti ti-notes"></i> Observaciones</div>
+    <textarea id="observaciones" rows="3" placeholder="Notas, seguimiento, pendientes..."></textarea>
+  </div>
+  <button class="submit-btn" id="btn-submit" onclick="submitForm()">
+    <i class="ti ti-send"></i> Guardar en Notion
+  </button>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const TOKEN = "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";
+const NOTION_VERSION = "2022-06-28";
+const SOL_DB = "286e4e8640774312afa24e4b1c87b39f";
+
+const inventario = [
+  {id:"37ab77a6-7a92-80ed-884b-f1152336a474",idMat:"CAJ-001",nombre:"Caja plástico amarilla para uso general",cantidad:40,unidad:"un"},
+  {id:"37ab77a6-7a92-80d7-8cd9-e83c062d59da",idMat:"CAJ-002",nombre:"Caja A01 zincada",cantidad:30,unidad:"un"},
+  {id:"37cb77a6-7a92-80d7-bb81-e9b52e2349b5",idMat:"ENC-001",nombre:"Magic enchufe de seguridad",cantidad:8,unidad:"un"},
+  {id:"37ab77a6-7a92-8009-85fd-d4e4e739615e",idMat:"ENC-002",nombre:"Toma 2P+T Matix (blanco)",cantidad:20,unidad:"un"},
+  {id:"37cb77a6-7a92-8080-ad5a-eb2df4ae8ca2",idMat:"INT-001",nombre:"Interruptor Magic",cantidad:18,unidad:"un"},
+  {id:"381b77a6-7a92-803f-afef-f15bb56bd54f",idMat:"INT-002",nombre:"Interruptor 9/12 Matix blanco",cantidad:7,unidad:"un"},
+  {id:"381b77a6-7a92-805a-9174-e410d64d4b47",idMat:"INT-003",nombre:"Interruptor 9/24 magic Bticino",cantidad:22,unidad:"un"},
+  {id:"37cb77a6-7a92-80b7-9fe5-f9277d8f5c85",idMat:"INT-004",nombre:"Interruptor 9/12 Living Light (blanco)",cantidad:17,unidad:"un"},
+  {id:"37cb77a6-7a92-8011-8b2b-e38a87b6f8c0",idMat:"INT-005",nombre:"Interruptor 9/24 Living Light (gris)",cantidad:6,unidad:"un"},
+  {id:"381b77a6-7a92-8009-9800-f0a913490952",idMat:"CON-001",nombre:"Conectores aislados Scotchlok",cantidad:100,unidad:"bolsa"},
+  {id:"381b77a6-7a92-8071-9c93-e6606de2d132",idMat:"CON-002",nombre:"Conector de alambre R/Y + M13",cantidad:100,unidad:"bolsa"},
+  {id:"387b77a6-7a92-804e-9350-f354cfdd9935",idMat:"PLA-001",nombre:"Placa aluminio al natural simple",cantidad:15,unidad:"un"},
+  {id:"387b77a6-7a92-801c-aba8-ccf7b49f1276",idMat:"PLA-002",nombre:"Placa aluminio al natural doble",cantidad:15,unidad:"un"},
+  {id:"387b77a6-7a92-80a7-aa28-c30f5c535626",idMat:"PLA-003",nombre:"Placa aluminio al natural triple",cantidad:15,unidad:"un"},
+  {id:"387b77a6-7a92-8070-9e61-ece07154a702",idMat:"PLA-004",nombre:"Placa aluminio al natural ciega",cantidad:15,unidad:"un"},
+  {id:"381b77a6-7a92-8017-bea6-f3519ec3c2f4",idMat:"PLA-005",nombre:"Placa para perfiles Matix blanca",cantidad:15,unidad:"un"},
+  {id:"381b77a6-7a92-808e-b4f3-fcca20ea4bc5",idMat:"PUL-001",nombre:"Pulsador Matix",cantidad:4,unidad:"un"},
+  {id:"37ab77a6-7a92-8068-9ae8-e6c2bdb8a0e0",idMat:"TAP-001",nombre:"Tapa ciega blanca",cantidad:6,unidad:"un"},
+  {id:"381b77a6-7a92-809b-83ea-e0e213d49f5f",idMat:"TAP-002",nombre:"Falso polo Matix",cantidad:3,unidad:"un"}
+];
+
+let stockLocal = {};
+inventario.forEach(p => stockLocal[p.id] = p.cantidad);
+
+let tipoSel='', prioSel='', estadoSel='Pendiente', matCount=0;
+
+const now = new Date();
+now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+document.getElementById('fecha').value = now.toISOString().slice(0,16);
+
+function initChips(id, cb, cls) {
+  document.querySelectorAll('#'+id+' .chip').forEach(c => {
+    c.addEventListener('click', () => {
+      document.querySelectorAll('#'+id+' .chip').forEach(x => x.className='chip');
+      c.classList.add(cls); cb(c.dataset.val);
+    });
+  });
+}
+initChips('chips-tipo', v => tipoSel=v, 'a-tipo');
+initChips('chips-estado', v => estadoSel=v, 'a-estado');
+document.querySelectorAll('#chips-prio .chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('#chips-prio .chip').forEach(x => x.className='chip');
+    prioSel = c.dataset.val;
+    const m={'🔴 Alta':'a-alta','🟡 Media':'a-media','🟢 Baja':'a-baja'};
+    c.classList.add(m[c.dataset.val]);
+  });
+});
+
+function stockBadge(qty) {
+  if(qty<=0) return '<span class="stock-badge s-crit"><i class="ti ti-x" style="font-size:11px"></i> Sin stock</span>';
+  if(qty<=10) return '<span class="stock-badge s-crit"><i class="ti ti-alert-triangle" style="font-size:11px"></i> Crítico: '+qty+'</span>';
+  if(qty<=13) return '<span class="stock-badge s-low"><i class="ti ti-minus" style="font-size:11px"></i> Bajo: '+qty+'</span>';
+  return '<span class="stock-badge s-ok"><i class="ti ti-check" style="font-size:11px"></i> Stock: '+qty+'</span>';
+}
+
+function addMaterial() {
+  matCount++;
+  const id = 'mat-'+matCount;
+  const opts = inventario.map(p =>
+    '<option value="'+p.id+'" data-qty="'+p.cantidad+'" data-nombre="'+p.nombre+'" data-unidad="'+p.unidad+'" data-idmat="'+p.idMat+'">'+p.idMat+' · '+p.nombre+'</option>'
+  ).join('');
+  const div = document.createElement('div');
+  div.id = id; div.className = 'mat-item';
+  div.innerHTML =
+    '<div class="mat-header"><span class="mat-num">Material #'+matCount+'</span>'+
+    '<button class="rm-btn" onclick="document.getElementById(\''+id+'\').remove()"><i class="ti ti-x"></i></button></div>'+
+    '<div class="field"><label>Producto</label>'+
+    '<select onchange="updateStock(this,\''+id+'\')"><option value="">Seleccionar producto...</option>'+opts+'</select>'+
+    '<div id="stock-'+id+'"></div></div>'+
+    '<div class="mat-grid">'+
+    '<div><label>Cantidad a usar</label><input type="number" id="qty-'+id+'" min="1" value="1" step="1"></div>'+
+    '<div><label>Unidad</label><input type="text" id="unit-'+id+'" readonly style="color:var(--muted)"></div>'+
+    '</div><div id="warn-'+id+'" class="warn" style="display:none"></div>';
+  document.getElementById('mat-list').appendChild(div);
+}
+
+function updateStock(sel, matId) {
+  if(!sel.value){document.getElementById('stock-'+matId).innerHTML='';return;}
+  const opt = sel.options[sel.selectedIndex];
+  const qty = stockLocal[sel.value] !== undefined ? stockLocal[sel.value] : parseFloat(opt.dataset.qty);
+  document.getElementById('stock-'+matId).innerHTML = stockBadge(qty);
+  document.getElementById('unit-'+matId).value = opt.dataset.unidad||'un';
+  const qtyIn = document.getElementById('qty-'+matId);
+  qtyIn.max = qty;
+  const warn = document.getElementById('warn-'+matId);
+  qtyIn.oninput = () => {
+    const used = parseFloat(qtyIn.value)||0;
+    warn.style.display = used>qty?'block':'none';
+    if(used>qty) warn.textContent='Solo hay '+qty+' '+opt.dataset.unidad+' disponibles.';
+  };
+}
+
+function showToast(msg, type='', dur=3500) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast '+type; t.style.display='block';
+  setTimeout(()=>t.style.display='none',dur);
+}
+
+function notionHeaders() {
+  return {
+    'Authorization': 'Bearer '+TOKEN,
+    'Content-Type': 'application/json',
+    'Notion-Version': NOTION_VERSION
+  };
+}
+
+function resetForm() {
+  document.getElementById('descripcion').value='';
+  document.getElementById('observaciones').value='';
+  document.getElementById('solicitante').value='';
+  document.getElementById('piso').value='';
+  document.getElementById('mat-list').innerHTML='';
+  matCount=0;
+  document.querySelectorAll('.chip').forEach(c=>c.className='chip');
+  tipoSel='';prioSel='';estadoSel='Pendiente';
+  document.querySelector('#chips-estado .chip[data-val="Pendiente"]').classList.add('a-estado');
+  const n=new Date();n.setMinutes(n.getMinutes()-n.getTimezoneOffset());
+  document.getElementById('fecha').value=n.toISOString().slice(0,16);
+  addMaterial();
+}
+
+async function submitForm() {
+  const descripcion = document.getElementById('descripcion').value.trim();
+  const solicitante = document.getElementById('solicitante').value;
+  if(!descripcion){showToast('Escribe una descripción','err');return;}
+  if(!solicitante){showToast('Selecciona un solicitante','err');return;}
+
+  const materiales=[];
+  let stockOk=true;
+  document.querySelectorAll('.mat-item').forEach(item=>{
+    const sel=item.querySelector('select');
+    if(!sel||!sel.value)return;
+    const opt=sel.options[sel.selectedIndex];
+    const used=parseFloat(item.querySelector('input[type=number]')?.value)||1;
+    const disp=stockLocal[sel.value]!==undefined?stockLocal[sel.value]:parseFloat(opt.dataset.qty)||0;
+    if(used>disp){stockOk=false;return;}
+    materiales.push({
+      id:sel.value,
+      nombre:opt.dataset.nombre,
+      idMat:opt.dataset.idmat,
+      used, unidad:item.querySelector('input[readonly]')?.value||'un',
+      nuevaCantidad:disp-used
+    });
+  });
+
+  if(!stockOk){showToast('Cantidad supera el stock disponible','err');return;}
+
+  const btn=document.getElementById('btn-submit');
+  btn.disabled=true;
+  btn.innerHTML='<i class="ti ti-loader spin"></i> Guardando...';
+
+  const fecha=document.getElementById('fecha').value;
+  const piso=document.getElementById('piso').value;
+  const obs=document.getElementById('observaciones').value.trim();
+  const matTxt=materiales.map(m=>(m.idMat?m.idMat+' · ':'')+m.nombre+': '+m.used+' '+m.unidad).join(', ');
+  let obsText=obs;
+  if(matTxt) obsText=(obsText?obsText+'\n\n':'')+'Materiales usados: '+matTxt;
+  const statusMap={'Pendiente':'Sin empezar','En Ejecución':'En curso','Completado':'Listo'};
+
+  try {
+    // 1. Crear solicitud en Notion
+    const props = {
+      "Descripción del Trabajo":{title:[{text:{content:descripcion}}]},
+      ...(solicitante&&{"Solicitante":{select:{name:solicitante}}}),
+      ...(piso&&{"Piso / Ubicación":{select:{name:piso}}}),
+      ...(tipoSel&&{"Tipo de Trabajo":{select:{name:tipoSel}}}),
+      ...(prioSel&&{"Prioridad":{select:{name:prioSel}}}),
+      "Estado":{status:{name:statusMap[estadoSel]||'Sin empezar'}},
+      ...(fecha&&{"Fecha y Hora":{date:{start:new Date(fecha).toISOString()}}}),
+      ...(obsText&&{"Observaciones":{rich_text:[{text:{content:obsText}}]}})
+    };
+
+    const r1 = await fetch('https://lingering-sound-36ef.jrojasgutierrrez.workers.dev/v1/pages', {
+      method:'POST',
+      headers: notionHeaders(),
+      body: JSON.stringify({parent:{database_id:SOL_DB}, properties:props})
+    });
+
+    if(!r1.ok) throw new Error('Error creando solicitud: '+r1.status);
+
+    // 2. Descontar materiales del inventario
+    for(const m of materiales) {
+      await fetch('https://lingering-sound-36ef.jrojasgutierrrez.workers.dev/v1/pages/'+m.id, {
+        method:'PATCH',
+        headers: notionHeaders(),
+        body: JSON.stringify({properties:{"Cantidad":{number:m.nuevaCantidad}}})
+      });
+      stockLocal[m.id] = m.nuevaCantidad;
+    }
+
+    showToast('Guardado correctamente','ok');
+    setTimeout(resetForm, 1800);
+
+  } catch(e) {
+    showToast('Error: '+e.message,'err');
+  }
+
+  btn.disabled=false;
+  btn.innerHTML='<i class="ti ti-send"></i> Guardar en Notion';
+}
+
+addMaterial();
+</script>
+</body>
+</html>
